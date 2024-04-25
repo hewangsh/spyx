@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hws.manager.mapper.ProductSpecMapper">
+    <insert id="save">
+        insert into product_spec (
+            id,
+            spec_name,
+            spec_value,
+            create_time,
+            update_time,
+            is_deleted
+        ) values (
+                     #{id},
+                     #{specName},
+                     #{specValue},
+                     now(),
+                     now(),
+                     0
+                 )
+    </insert>
+    <update id="updateById">
+        update product_spec set
+        <if test="specName != null and specName != ''">
+            spec_name = #{specName},
+        </if>
+        <if test="specValue != null and specValue != ''">
+            spec_value = #{specValue},
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+    <update id="removeById">
+        update product_spec set update_time = now() ,is_deleted = 1
+        where id = #{id}
+    </update>
+
+    <select id="findByPage" resultType="com.hws.model.entity.product.ProductSpec">
+        select *
+        from product_spec
+        where is_deleted = 0
+        order by id desc
+    </select>
+    <select id="findAll" resultType="com.hws.model.entity.product.ProductSpec">
+        select *
+        from product_spec
+        order by id desc
+    </select>
+</mapper>

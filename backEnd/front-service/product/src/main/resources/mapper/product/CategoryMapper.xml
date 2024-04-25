@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hws.product.mapper.CategoryMapper">
+
+    <select id="selectOneCategory" resultType="com.hws.model.entity.product.Category">
+        select * from category where parent_id=0 and is_deleted=0 and status = 1 order by id
+    </select>
+    <select id="findCategoryTree" resultType="com.hws.model.entity.product.Category">
+        select * from category where status = 1 and is_deleted=0  order by id
+    </select>
+</mapper>

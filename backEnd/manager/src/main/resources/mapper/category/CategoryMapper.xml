@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hws.manager.mapper.CategoryMapper">
+    <insert id="batchInsert">
+        insert into category(
+            id,
+            name,
+            image_url,
+            parent_id,
+            status,
+            order_num,
+            create_time ,
+            update_time ,
+            is_deleted
+        ) values
+        <foreach collection="categoryList" item="item" separator="," >
+            (
+            #{item.id},
+            #{item.name},
+            #{item.imageUrl},
+            #{item.parentId},
+            #{item.status},
+            #{item.orderNum},
+            now(),
+            now(),
+            0
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectByParentId" resultType="com.hws.model.entity.product.Category">
+        select * from category where parent_id=#{id} and is_deleted=0 order by id desc
+    </select>
+    <select id="selectCountByParentId" resultType="java.lang.Integer">
+        select count(*) from category where parent_id=#{id} and is_deleted=0
+    </select>
+    <select id="findAll" resultType="com.hws.model.entity.product.Category">
+        select * from category where is_deleted=0 order by id desc
+    </select>
+</mapper>

@@ -1,0 +1,38 @@
+
+server:
+  port: 8514
+
+spring:
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8888
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_spzx?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=true
+    username: root
+    password: 12345
+  data:
+    redis:
+      host: localhost
+      port: 6999
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*/*.xml
+
+#rabbitmq:
+#  host: localhost
+#  port: 5672
+#  username: guest
+#  password: guest
+#  publisher-confirm-type: CORRELATED  #发布确认模式，消息是否被成功发送到交换机
+#  publisher-returns: true
+#  listener:
+#    simple:
+#      prefetch: 1
+#      concurrency: 3
+#      acknowledge-mode: manual   #消费端手动确认

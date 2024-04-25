@@ -1,0 +1,32 @@
+server:
+  port: 1225
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 12345
+  # Redis的相关配置   终端启动：redis-server.exe redis.windows.conf
+  data:
+    redis:
+      host: localhost
+      port: 6999
+
+mybatis:
+  mapper-locations: classpath:/mapper/*/*.xml
+  config-location: classpath:/mybatis-config.xml
+
+# 自定义配置  --再添加一个类读取这些配置
+spzx:
+  auth:
+    noAuthUrls:
+      - /admin/system/index/login
+      - /admin/system/index/generateValidateCode
+  minio:
+    # 这里一定要用api的ip地址，否则会报错
+    endpointUrl: http://172.17.0.1:9000
+    accessKey: minioadmin
+    secreKey: minioadmin
+    bucketName: spzx-bucket

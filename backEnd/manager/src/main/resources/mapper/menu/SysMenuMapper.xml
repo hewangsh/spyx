@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hws.manager.mapper.SysMenuMapper">
+<!--    插入菜单-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_menu (
+            id,
+            parent_id,
+            title,
+            component,
+            sort_value,
+            status
+        ) values (
+                     #{id},
+                     #{parentId},
+                     #{title},
+                     #{component},
+                     #{sortValue},
+                     #{status}
+                 )
+    </insert>
+    <update id="updateById">
+        update sys_menu set
+        <if test="parentId != null and parentId != ''">
+            parent_id = #{parentId},
+        </if>
+        <if test="title != null and title != ''">
+            title = #{title},
+        </if>
+        <if test="component != null and component != ''">
+            component = #{component},
+        </if>
+        <if test="sortValue != null">
+            sort_value = #{sortValue},
+        </if>
+        <if test="status != null">
+            status = #{status},
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+<!--    菜单删除-->
+    <update id="removeById">
+        update sys_menu set update_time = now() ,is_deleted = 1
+        where id = #{id}
+    </update>
+    <!--    查询所有菜单-->
+    <select id="findAll" resultType="com.hws.model.entity.system.SysMenu">
+        select * from sys_menu where is_deleted=0 order by sort_value
+    </select>
+<!--    查询子菜单数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(id) from sys_menu where
+            parent_id = #{parentId} and is_deleted = 0
+    </select>
+<!--    查询用户能够操作的菜单-->
+    <select id="findMenusByUserId" resultType="com.hws.model.entity.system.SysMenu">
+        SELECT DISTINCT m.* FROM sys_menu m
+        INNER JOIN sys_role_menu rm ON rm.menu_id = m.id
+        INNER JOIN sys_user_role ur ON ur.role_id = rm.role_id
+        WHERE ur.user_id=#{userId} and m.is_deleted = 0
+    </select>
+    <select id="selectParentMenu" resultType="com.hws.model.entity.system.SysMenu">
+        select * from sys_menu where id=#{parentId}
+    </select>
+</mapper>

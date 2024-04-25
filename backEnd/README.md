@@ -1,0 +1,11 @@
+# 商品优选后端
+- model：实体类
+- utils：工具
+- service：公共服务
+- logs：日志
+## 后台商品管理
+- manager:后台管理业务实现
+## 前台购物微服务
+- gateway：网关
+- front-service：前台业务实现
+- front-service-client：远程调用接口
